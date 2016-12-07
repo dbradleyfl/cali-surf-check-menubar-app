@@ -4,14 +4,16 @@ import request from 'request';
 import Footer from './Footer';
 import Header from './Header';
 import MainArea from './MainArea';
-import Sidebar from './Sidebar';
+import CountySidebar from './CountySidebar';
+import SpotSidebar from './SpotSidebar';
 
 export default class Layout extends React.Component {
   constructor () {
     super();
 
     this.state = {
-      spots: {},
+      counties: {},
+      currentCounty: '',
       currentSpot: window.localStorage.getItem('userDefaultSpot')
     };
 
@@ -35,14 +37,22 @@ export default class Layout extends React.Component {
         }
 
         // set spots to the api return data
-        this.setState({spots: formattedSurfSpotData});
+        this.setState({counties: formattedSurfSpotData});
         console.log(formattedSurfSpotData);
       } else {
         alert('No access to internet connection! Surf Report could not be accessed.');
       }
     });
+
   }
 
+  setCounty (county) {
+    if (county == this.state.currentCounty) {
+      this.setState({currentCounty: ""})
+    } else {
+      this.setState({currentCounty: county});
+    }
+  }
 
   render() {
     return (
@@ -50,7 +60,10 @@ export default class Layout extends React.Component {
         <Header />
         <div className="window-content">
           <div className="pane-group">
-            <Sidebar spots={this.state.spots} />
+            <CountySidebar counties={this.state.counties} currentCounty={this.state.currentCounty} setCounty={this.setCounty.bind(this)} />
+            { this.state.currentCounty &&
+              <SpotSidebar county={this.state.currentCounty} />
+            }
             <MainArea spot={this.state.currentSpot} />
           </div>
         </div>
