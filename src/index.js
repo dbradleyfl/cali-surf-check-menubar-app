@@ -8,3 +8,7 @@ var mb = menubar({'index': path.join('file://', __dirname, '/index.html')});
 mb.on('ready', function ready() {
   console.log('app is ready')
 })
+
+mb.on('show', function () {
+  mb.window.reload();
+})

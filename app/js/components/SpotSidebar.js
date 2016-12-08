@@ -5,13 +5,17 @@ export default class SpotSidebar extends React.Component {
     super();
   }
 
+  setCurrentSpot (spot) {
+    this.props.setCurrentSpot(spot);
+  }
+
   render() {
-    console.log(this.props.county);
     return (
       <div className="pane-sm pane sidebar">
         <ul className="list-group">
-        {this.props.county.map(function(spot, i){
-            return <li key={i} className="list-group-item">{spot.spot_name}</li>;
+        {Object.keys(this.props.county).map((key) => {
+            let spot = this.props.county[key];
+            return <li key={key} className="list-group-item" onClick={() => { this.setCurrentSpot(spot) }}>{key}</li>;
         })}
         </ul>
       </div>
