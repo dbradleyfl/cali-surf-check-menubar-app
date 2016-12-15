@@ -32,7 +32,6 @@ export default class Layout extends React.Component {
     // hit surf report api then...
     request('http://api.spitcast.com/api/spot/all', (error, response, body) => {
       if (!error && response.statusCode == 200) {
-        console.log('Successfully reached Spitcast api.');
         let formattedSurfSpotData = {};
         let surfSpotData = JSON.parse(body);
         for (var i = 0; i < surfSpotData.length; i++) {
@@ -50,7 +49,6 @@ export default class Layout extends React.Component {
 
         // set spots to the api return data
         this.setState({counties: formattedSurfSpotData});
-        console.log(formattedSurfSpotData);
         callback();
       } else {
         alert('No access to internet connection! Surf Report could not be accessed.');
@@ -74,16 +72,36 @@ export default class Layout extends React.Component {
       currentSpot: spot
     });
 
-    request('http://api.spitcast.com/api/spot/forecast/' + spot.spot_id, (error, response, body) => {
-      if (!error && response.statusCode == 200) {
-        console.log('Got the forecast.');
-        let spotForcastData = JSON.parse(body);
-        this.setState({currentSpotForcast: spotForcastData});
-      } else {
-        alert('Failed to get ' + spot.spot_name + ' report.');
-      }
-    });
+    getSpotForcast(spot, this);
+
+    function getSpotForcast(spot, self) {
+      request('http://api.spitcast.com/api/spot/forecast/' + spot.spot_id, (error, response, body) => {
+        if (!error && response.statusCode == 200) {
+          let spotForcastData = JSON.parse(body);
+          getTideData(spot, spotForcastData, self);
+        } else {
+          alert('Failed to get ' + spot.spot_name + ' report.');
+        }
+      });
+    }
+
+    function getTideData (spot, spotForcastData, self) {
+      request('http://api.spitcast.com/api/county/tide/' + spot.county_name.toLowerCase().replace(' ','-'), (error, response, body) => {
+        if (!error && response.statusCode == 200) {
+          let spotTideData = JSON.parse(body);
+          spotForcastData.map(function (forcast, index) {
+            forcast["tide"] = spotTideData[index]["tide"];
+            return forcast
+          })
+          self.setState({currentSpotForcast: spotForcastData});
+        } else {
+          alert('Failed to get ' + spot.county_name + ' tide.');
+        }
+      });
+    }
   }
+
+
 
   setDefaultSpot (spot) {
     window.localStorage.setItem('userDefaultSpot', spot.county_name + '$' + spot.spot_name );

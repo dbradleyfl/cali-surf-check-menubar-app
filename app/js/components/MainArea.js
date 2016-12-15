@@ -42,6 +42,7 @@ export default class MainArea extends React.Component {
                   <th>Hour</th>
                   <th>Size</th>
                   <th>Quality</th>
+                  <th>Tide</th>
                 </tr>
               </thead>
               <tbody>
@@ -49,8 +50,9 @@ export default class MainArea extends React.Component {
                 return (
                   <tr key={i}>
                     <td>{hour.hour}</td>
-                    <td>{hour.size}ft</td>
+                    <td>{hour.size}'</td>
                     <td>{hour.shape_full}</td>
+                    <td>{hour.tide.toFixed(1)}'</td>
                   </tr>
                 )
               })}
