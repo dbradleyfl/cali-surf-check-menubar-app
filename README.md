@@ -16,4 +16,4 @@ A menubar app for checking California surf quickly and easily.
 * Watch app/ and src/ for changes and update build/ automagically: gulp watch
 * Lint everything (We use StandardJS, but you can modify the .eslintrc): gulp lint
 * Open up the app: gulp serve. This will also live reload everything, so don't worry about that.
-* Package the app for release: gulp package.
+* Package the app for release: gulp package. NOTE: I COULD NOT GET GULP PACKAGE TO WORK AND USED ELECTRON-PACKAGER TO PACKAGE THE APP.

@@ -1,14 +1,19 @@
 'use strict'
 
 const path = require('path')
-var menubar = require('menubar')
+const menubar = require('menubar')
+const { ipcMain } = require('electron')
 
-var mb = menubar({'index': path.join('file://', __dirname, '/index.html')});
-
-mb.on('ready', function ready() {
-  console.log('app is ready')
-})
+var mb = menubar({
+  'index': path.join('file://', __dirname, '/index.html')
+});
 
 mb.on('show', function () {
   mb.window.reload();
+})
+
+ipcMain.on('quit-app', (event, args) => {
+  if (args) {
+    mb.app.exit()
+  }
 })

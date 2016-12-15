@@ -23,7 +23,7 @@ const rename = require('gulp-rename')
 const useref = require('gulp-useref')
 const replace = require('gulp-replace')
 const electron = require('electron-connect').server.create()
-const electronPackager = require('gulp-atom-electron')
+const electronPackager = require('electron-packager')
 const symdest = require('gulp-symdest')
 const zip = require('gulp-vinyl-zip')
 
@@ -196,9 +196,17 @@ gulp.task('serve', ['build', 'watch'], () => {
 /* These are the packaging tasks! */
 
 gulp.task('package-osx', ['build-production'], () => {
-  return gulp.src('./build/**')
-    .pipe(electronPackager({ version: electronVersion, platform: 'darwin' }))
-    .pipe(symdest('release'))
+  return electronPackager({
+    dir: './',
+    icon: './icon.icns',
+    out: './release',
+    overwrite: true,
+    asar: false
+  }, function (err, appPaths) {
+    if (err) { console.log(err) } else {
+      console.log('success: ', appPaths);
+    }
+  });
 })
 
 gulp.task('package-windows', ['build-production'], () => {
