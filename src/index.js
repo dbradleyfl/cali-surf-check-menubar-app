@@ -9,7 +9,7 @@ var mb = menubar({
 });
 
 mb.on('show', function () {
-  mb.window.reload();
+  mb.window.webContents.send('reload-report', 'reload');
 })
 
 ipcMain.on('quit-app', (event, args) => {

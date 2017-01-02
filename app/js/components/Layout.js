@@ -19,6 +19,16 @@ export default class Layout extends React.Component {
       defaultSpotId: window.localStorage.getItem('userDefaultSpot')
     };
 
+    this.loadDefaultSpotReport.bind(this)();
+  }
+
+  componentDidMount () {
+    ipcRenderer.on("reload-report", () => {
+      this.loadDefaultSpotReport.bind(this)();
+    });
+  }
+
+  loadDefaultSpotReport () {
     this.getSpotData.bind(this)(() => {
       if (this.state.defaultSpotId && this.state.counties) {
         let county = this.state.defaultSpotId.split('$')[0];
