@@ -43,6 +43,7 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
+    "auto-launch": "^5.0.1",
     "electron": "^1.4.12",
     "menubar": "^5.1.0",
     "react": "^15.4.1",
