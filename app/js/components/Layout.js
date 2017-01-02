@@ -19,21 +19,21 @@ export default class Layout extends React.Component {
       defaultSpotId: window.localStorage.getItem('userDefaultSpot')
     };
 
-    this.loadDefaultSpotReport.bind(this)();
+    this.loadDefaultSpotReport.call(this);
   }
 
   componentDidMount () {
     ipcRenderer.on("reload-report", () => {
-      this.loadDefaultSpotReport.bind(this)();
+      this.loadDefaultSpotReport.call(this);
     });
   }
 
   loadDefaultSpotReport () {
-    this.getSpotData.bind(this)(() => {
+    this.getSpotData.call(this, () => {
       if (this.state.defaultSpotId && this.state.counties) {
         let county = this.state.defaultSpotId.split('$')[0];
         let spot = this.state.defaultSpotId.split('$')[1];
-        this.setCurrentSpot.bind(this, this.state.counties[county][spot])();
+        this.setCurrentSpot.call(this, this.state.counties[county][spot]);
       }
     });
   }
