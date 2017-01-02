@@ -9,9 +9,10 @@ var mb = menubar({
   'index': path.join('file://', __dirname, '/index.html')
 });
 
+var appPath = mb.app.getPath('exe').split('.app/Content')[0] + '.app';
 var appAutoLauncher = new AutoLaunch({
     name: 'Cali Surf Check Menubar',
-    path: __dirname,
+    path: appPath
 });
 
 appAutoLauncher.enable();

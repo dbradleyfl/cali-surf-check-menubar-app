@@ -197,6 +197,7 @@ gulp.task('serve', ['build', 'watch'], () => {
 
 gulp.task('package-osx', ['build-production'], () => {
   return electronPackager({
+    name: 'Cali Surf Menubar App',
     dir: './',
     icon: './icon.icns',
     out: './release',
